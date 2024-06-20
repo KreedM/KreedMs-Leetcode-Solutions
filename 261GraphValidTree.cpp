@@ -1,12 +1,14 @@
 class Solution {
 public:
     bool validTree(int n, vector<vector<int>>& edges) {
-        vector<vector<bool>> adj(n, vector<bool>(n, false));
+        vector<vector<int>> adj(n);
         for(int i = 0; i < edges.size(); ++i) {
-            adj[edges[i][0]][edges[i][1]] = true;
-            adj[edges[i][1]][edges[i][0]] = true;
+            adj[edges[i][0]].push_back(edges[i][1]);
+            adj[edges[i][1]].push_back(edges[i][0]);
         }  
         
+        vector<int> prev(n, -1);
+
         unordered_set<int> visited; visited.insert(0);
 
         int node;
@@ -14,14 +16,15 @@ public:
         while(!pending.empty()) {
             node = pending.front(); pending.pop();
 
-            for(int i = 0; i < n; ++i) {
-                if(adj[node][i]) {
-                    if(visited.find(i) != visited.end())
+            for(const int& v : adj[node]) {
+                if(visited.find(v) != visited.end()) {
+                    if(prev[node] != v)
                         return false;
-                    
-                    adj[i][node] = false;
-                    pending.push(i);
-                    visited.insert(i);
+                }
+                else {
+                    pending.push(v);
+                    prev[v] = node;
+                    visited.insert(v);
                 }
             }
         }
