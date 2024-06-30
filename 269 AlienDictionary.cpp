@@ -17,10 +17,8 @@ public:
 
     string foreignDictionary(vector<string>& words) {
         for(const string& s : words) { // Create vertices
-            for(const char& c : s) {
-                if(graph.find(c) == graph.end())
-                    graph[c];
-            }
+            for(const char& c : s)
+                graph[c];
         }
 
         for(int i = 0; i < words.size() - 1; ++i) { // Create edges
