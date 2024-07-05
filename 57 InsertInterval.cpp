@@ -10,11 +10,13 @@ public:
         while(i < sz && intervals[i][1] < newInterval[0])
             inserted.push_back(intervals[i++]);
 
-        if(i < sz && intervals[i][0] < newInterval[1])
-            newInterval[0] = min(newInterval[0], intervals[i][0]);
-        
-        while(i < sz && intervals[i][0] <= newInterval[1])
-            newInterval[1] = max(newInterval[1], intervals[i++][1]);
+        if(i < sz) {
+            if(intervals[i][0] < newInterval[0])
+                newInterval[0] = intervals[i][0];
+                
+            while(i < sz && intervals[i][0] <= newInterval[1])
+                newInterval[1] = max(newInterval[1], intervals[i++][1]);
+        }
 
         inserted.push_back(newInterval);
 
